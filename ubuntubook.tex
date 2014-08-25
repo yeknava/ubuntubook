@@ -1,0 +1,45 @@
+\documentclass[10pt,a4paper]{report}
+% yeknava
+
+\title{پردازش ابری} %عنوان
+\author{یکنوا} %نگارنده
+
+\include{Changes} %اعمال تغییرات گفته شده در آئین‌نامه
+
+\makeatletter%تغییرات دستی برای تنظیم شماره صفحات به صورت ابجد
+\def\@myharfi#1{\ifcase#1\or الف\or ب\or پ\or ت\or ث\or
+ج\or چ\or ح\or خ\or د\or ذ\or ی\or ز\or س\or ش\or ص\or ض\or ع\or غ\or
+ف\or ق\or ک\or گ\or ل\or م\or ن\or و\or ه\or ی\else\@ctrerr\fi}
+\def\myharfi#1{\expandafter\@myharfi\csname c@#1\endcsname}
+\makeatother
+
+\begin{document} %شروع سند پایان‌نامه
+\pagenumbering{myharfi} %شماره‌ی صفحات به صورت الفبایی
+
+\include{Cover} %درج صفحه‌ی نخست
+\include{license}
+% \include{ThanksGiving} %درج تقدیم‌نامه و صفحه‌ی تقدیر و تشکر
+\tableofcontents %چاپ فهرست مطالب
+% \listoftables
+% \listoffigures
+\include{preface} %درج مقدمه
+
+\newpage %رفتن به صفحه‌ی جدید برای پایان دادن به شماره‌گذاری الفبایی صفحات
+
+\pagenumbering{arabic} %شماره‌ی صفحات به صورت عددی
+
+\include{chapter1} %درج فصل نخست
+\include{chapter2}
+\include{chapter3}
+\include{chapter4}
+\include{chapter5}
+\include{chapter6}
+\include{chapter7}
+\include{chapter8}
+\include{chapter9}
+%\include{Appendix} %درج پیوست‌ها
+
+% \include{Resources} %درج منابع و مآخذ
+% \include{AbstractEnglish} %درج چکیده‌ی انگلیسی
+\include{CoverBack} %درج صفحه‌ی آخر
+\end{document} %پایان سند پایان‌نامه

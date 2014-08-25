@@ -1,0 +1,155 @@
+\usepackage[top=35mm, bottom=30mm, left=30mm, right=35mm]{geometry} %تنظیم حاشیه‌های صفحه
+\linespread{2.5} %تعداد ۲۲ خط در صفحه
+
+\usepackage{hyperref} %ایجاد لینک در متن
+\hypersetup{linkbordercolor={1 1 1}, urlbordercolor={1 1 1}} %سفید کردن مرز لینک‌ها
+
+\usepackage{fancyvrb}
+\DefineVerbatimEnvironment{terminal}{Verbatim}{baselinestretch=1} %ایجاد متن‌هایی شبیه به خروجی ترمینال
+
+\usepackage{graphicx} %برای درج شکل در متن
+
+\usepackage{xepersian} %افزودن امکان فارسی نویسی و تعریف قلم‌ها
+\settextfont[Scale=1.4]{Nazli}
+\setlatintextfont[Scale=1.2]{Ubuntu}
+\setdigitfont[Scale=1.4]{B Lotus}
+\defpersianfont\Yagut[Scale=1.4]{B Yagut}
+\defpersianfont\Yagutb[Scale=1.6]{B Yagut}
+\defpersianfont\Titr[Scale=7.2]{Titr}
+\defpersianfont\Nazanin[Scale=3.6]{B Nazanin}
+\defpersianfont\Titrh[Scale=1.8]{Titr}
+\defpersianfont\Titrd[Scale=1.2]{Titr}
+\defpersianfont\Titrc[Scale=1.4]{Titr}
+\deflatinfont\Titles[Scale=1.6]{Ubuntu}
+\deflatinfont\Titlec[Scale=1.4]{Ubuntu}
+
+\makeatletter %شروع به تغییرات در قالب پیش‌فرض برای ایجاد قالب دلخواه
+\newcommand\Yagutfont[1]{\def\@yagutfont{#1}}
+\newcommand\Yagutfontb[1]{\def\@yagutfontb{#1}}
+\newcommand\Titrfont[1]{\def\@titrfont{#1}}
+\newcommand\Nazaninfont[1]{\def\@nazaninfont{#1}}
+
+
+
+\renewcommand\tableofcontents{% تنظیم مکان و فونت کلمه‌ی فهرست مطالب
+\newpage
+    \if@twocolumn
+      \@restonecoltrue\onecolumn
+    \else
+      \@restonecolfalse
+    \fi
+    \centerline{\@yagutfontb\bfseries\contentsname
+        \@mkboth{%
+           \MakeUppercase\contentsname}{\MakeUppercase\contentsname}}%
+    \vskip 40.pt
+    \@starttoc{toc}%
+    \if@restonecol\twocolumn\fi
+}
+
+\renewcommand{\@starttoc}[1]{% درج و تنظیم کلمات عنوان و فهرست
+ \begingroup
+ \hbox to \textwidth{\@yagutfont\bfseries\underline{صفحه}\hfill\underline{عنوان}}
+    \@input{\jobname.#1}%
+    \if@filesw
+      \expandafter\newwrite\csname tf@#1\endcsname
+      \immediate\openout \csname tf@#1\endcsname \jobname.#1\relax
+    \fi
+    \@nobreakfalse
+  \endgroup
+}
+
+\def\@spart#1{%
+    \addcontentsline{toc}{chapter}
+       {\@yagutfont#1}
+    \thispagestyle{empty}
+    {\centering
+     \interlinepenalty \@M
+     \@titrfont
+     \bfseries #1\par}%
+    \@endpart
+}
+
+\def\@chapter[#1]#2{\ifnum \c@secnumdepth >\m@ne
+                         \refstepcounter{chapter}
+                         \typeout{\@chapapp\space\thechapter.}
+                         \addcontentsline{toc}{chapter}
+                                   {\@yagutfont\@chapapp\space\@tartibi\c@chapter: \normalfont#1}
+                    \else
+                      \addcontentsline{toc}{chapter}{#1}
+                    \fi
+                    \chaptermark{#1}
+                    \addtocontents{lof}{\protect\addvspace{10.pt}}
+                    \addtocontents{lot}{\protect\addvspace{10.pt}}
+                    \if@twocolumn
+                      \@topnewpage[\@makechapterhead{#2}]
+                    \else
+                      \@makechapterhead{#2}
+                      \@afterheading
+                    \fi
+}
+
+\def\@makechapterhead#1{
+  \thispagestyle{empty}
+  \if@twocolumn
+    \onecolumn
+    \@tempswatrue
+  \else
+    \@tempswafalse
+  \fi
+  \vspace*{45mm}
+  {\centering
+     \interlinepenalty \@M
+     \@titrfont
+     \ifnum \c@secnumdepth >-2\relax
+       \bfseries \chaptername\nobreakspace\@tartibi\c@chapter
+       \par
+       \vskip 60mm
+     \fi
+     \@nazaninfont
+     \bfseries #1\par}
+     \newpage
+     \vspace*{50.pt}
+     \par
+}
+
+\def\@makeschapterhead#1{%
+  \vspace*{50.pt}%
+  {\parindent \z@ \raggedleft
+    \normalfont
+    \interlinepenalty\@M
+    \@yagutfontb \bfseries  #1\par\nobreak
+    \vskip 40.pt
+  }
+}
+
+\renewcommand\section{\@startsection {section}{1}{\z@\\}
+                                   {-8.5ex \@plus -1ex \@minus -.2ex}
+                                   {2.3ex \@plus.2ex}
+                                   {\@yagutfontb\bfseries}
+}
+
+\def\thesection{\arabic{section}-\arabic{chapter})}%
+
+\renewcommand\subsection{\@startsection {subsection}{2}{\z@\\}
+                                     {-4.25ex\@plus -1ex \@minus -.2ex}
+                                     {1.5ex \@plus .2ex}
+                                     {\@yagutfont\bfseries}
+}
+
+\def\thesubsection{\arabic{subsection}-\arabic{section}-\arabic{chapter})}%  
+%تغییرات برای ایجاد subsubsection
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{\z@\\}
+                                     {-.25ex\@plus -1ex \@minus -.2ex}
+                                     {1.5ex \@plus .2ex}
+                                     {\@yagutfont\bfseries}}
+\renewcommand{\thesubsubsection}{\arabic{subsubsection}. }
+\setcounter{subsubsection}{0}%
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\def\thesubsubsection{\arabic{subsubsection}-\arabic{subsection}-\arabic{section}-\arabic{chapter})}% پایان تغییرات برای زیر،زیر فصل
+\makeatother %پایان تغییرات در قالب پیش‌فرض برای ایجاد قالب دلخواه
+\Yagutfont{\Yagut}
+\Yagutfontb{\Yagutb}
+\Titrfont{\Titr}
+\Nazaninfont{\Nazanin}
+\SepMark{-} %استفاده از خط تیره به جای نقطه در فاصله‌گذاری شماره‌های بخش، زیربخش و…
